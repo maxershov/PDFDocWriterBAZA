@@ -6,10 +6,13 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InvalidPropertiesFormatException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -42,17 +45,23 @@ final class GUI extends JPanel {
 	JLabel datePlusLabel;
 	static JButton doneButton;
 
-	GUI() {
+	GUI() throws URISyntaxException {
 
 		super(new BorderLayout());
 
 		// Create buttons and add listener
 		doneButton = new JButton("Готово");
 		doneButton.setPreferredSize(new Dimension(120, 40));
-		String filename = System.getProperty("user.dir") + System.getProperty("file.separator") + "pass.pdf";
-
+		String filename = PropertiesGet.getFilePath() + "/passOut.pdf";
 		doneButton.addActionListener(e -> append(filename));
-		doneButton.addActionListener(e -> buttonClicked());
+		doneButton.addActionListener(e -> {
+			try {
+				buttonClicked();
+			} catch (URISyntaxException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 		JButton dateButt = new JButton("Сегодня");
 		dateButt.setPreferredSize(new Dimension(100, 40));
 		dateButt.addActionListener(e -> setDate(getDay("a")));
@@ -118,7 +127,7 @@ final class GUI extends JPanel {
 		log.setCaretPosition(log.getDocument().getLength());
 	}
 
-	void buttonClicked() {
+	void buttonClicked() throws URISyntaxException {
 		/* If button clicked - get text from fields and get PDFPaser */
 		String name = nameField.getText();
 		String birth = birthField.getText();
@@ -137,16 +146,24 @@ final class GUI extends JPanel {
 		dateField.setText(text);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InvalidPropertiesFormatException, FileNotFoundException, URISyntaxException, IOException {
+		/* Load properties and create GUI*/
+		PropertiesGet.loadProperties();
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				createGUI();
+				try {
+					createGUI();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
 
 	static String getDay(String where) {
+		/*Get today and tomorrow date formatted*/
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM");
 		String today = dateFormat.format(new Date()).toString();
 		String tomorrow = dateFormat.format(new Date().getTime() + 86400000).toString();
@@ -156,7 +173,7 @@ final class GUI extends JPanel {
 		return today;
 	}
 
-	static void createGUI() {
+	static void createGUI() throws URISyntaxException {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
