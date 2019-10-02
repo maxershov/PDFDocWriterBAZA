@@ -146,8 +146,9 @@ final class GUI extends JPanel {
 		dateField.setText(text);
 	}
 
-	public static void main(String[] args) throws InvalidPropertiesFormatException, FileNotFoundException, URISyntaxException, IOException {
-		/* Load properties and create GUI*/
+	public static void main(String[] args)
+			throws InvalidPropertiesFormatException, FileNotFoundException, URISyntaxException, IOException {
+		/* Load properties and create GUI */
 		PropertiesGet.loadProperties();
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -163,7 +164,7 @@ final class GUI extends JPanel {
 	}
 
 	static String getDay(String where) {
-		/*Get today and tomorrow date formatted*/
+		/* Get today and tomorrow date formatted */
 		DateFormat dateFormat = new SimpleDateFormat("dd.MM");
 		String today = dateFormat.format(new Date()).toString();
 		String tomorrow = dateFormat.format(new Date().getTime() + 86400000).toString();

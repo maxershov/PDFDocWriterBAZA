@@ -28,9 +28,9 @@ class Writer {
 	@SuppressWarnings("deprecation")
 	void addTextToPDF() throws IOException, URISyntaxException {
 		String filepath = PropertiesGet.getFilePath();
-		InputStream file = new FileInputStream(new File(filepath + "/resource" + PropertiesGet.getPdfBaseName()));
+		InputStream file = new FileInputStream(new File(filepath + "/resource/" + PropertiesGet.getPdfBaseName()));
 		InputStream fileFont = new FileInputStream(new File(filepath + "/resource/AG_Helvetica.ttf"));
-		
+
 		PDDocument doc = PDDocument.load(file);
 
 		// Create new PDF doc
@@ -56,18 +56,20 @@ class Writer {
 		contentStream.close();
 		// Save the doc
 		String filepathOutput = filepath + "/passOut.pdf";
-
 		System.out.println(filepathOutput);
+
 		doc.save(new File(filepathOutput));
 
 		// Print PDF file
 		Printer print = new Printer();
-//		try {
-//			print.printPDF();
-//		} catch (PrinterException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		if (!PropertiesGet.getPrinterName().equals("Empty")) {
+			try {
+				print.printPDF();
+			} catch (PrinterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		// Closing the document
 		doc.close();
 	}

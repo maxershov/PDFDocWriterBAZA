@@ -13,11 +13,11 @@ class PropertiesGet {
 	static String printerName;
 	static String pdfBaseName;
 	static String filePath;
-	
+
 	static void loadProperties()
 			throws URISyntaxException, InvalidPropertiesFormatException, FileNotFoundException, IOException {
 		Properties loadProps = new Properties();
-		String filePath = loadFilePath();
+		filePath = loadFilePath();
 		String fileProp = filePath + "/resource" + "/properties.xml";
 		loadProps.loadFromXML(new FileInputStream(fileProp));
 		printerName = loadProps.getProperty("printerName");
@@ -27,7 +27,7 @@ class PropertiesGet {
 	static String getFilePath() {
 		return filePath;
 	}
-	
+
 	static String getPrinterName() {
 		return printerName;
 	}

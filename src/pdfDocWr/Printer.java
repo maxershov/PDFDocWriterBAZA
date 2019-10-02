@@ -15,11 +15,11 @@ import org.apache.pdfbox.printing.PDFPageable;
 class Printer {
 	/* prints PDF file from PDFWriter */
 	void printPDF() throws InvalidPasswordException, IOException, PrinterException {
-		String filename = System.getProperty("user.dir") + System.getProperty("file.separator") + "pass.pdf";
+		String filename = PropertiesGet.getFilePath() + "passOut.pdf";
 		PDDocument document = PDDocument.load(new File(filename));
 
 		// Name of your printer
-		PrintService myPrintService = findPrintService("HP LaserJet Pro MFP M125-M126 PCLmS");
+		PrintService myPrintService = findPrintService(PropertiesGet.getPrinterName());
 
 		PrinterJob job = PrinterJob.getPrinterJob();
 		job.setPageable(new PDFPageable(document));
