@@ -43,6 +43,7 @@ final class GUI extends JPanel {
 	JLabel dateLabel;
 	JLabel myNameLabel;
 	JLabel datePlusLabel;
+	JButton stopButton;
 	static JButton doneButton;
 
 	GUI() throws URISyntaxException {
@@ -51,7 +52,7 @@ final class GUI extends JPanel {
 
 		// Create buttons and add listener
 		doneButton = new JButton("Готово");
-		doneButton.setPreferredSize(new Dimension(120, 40));
+		doneButton.setPreferredSize(new Dimension(90, 40));
 		String filename = PropertiesGet.getFilePath() + "/passOut.pdf";
 		doneButton.addActionListener(e -> append(filename));
 		doneButton.addActionListener(e -> {
@@ -69,6 +70,10 @@ final class GUI extends JPanel {
 		tomorrowButt.setPreferredSize(new Dimension(100, 40));
 		tomorrowButt.addActionListener(e -> setDate(getDay("tomorrow")));
 
+		stopButton = new JButton("Стоп");
+		stopButton.setPreferredSize(new Dimension(90, 40));
+		stopButton.addActionListener(e -> stopAction());
+
 		// Create fields for input text
 		nameField = new JTextField("");
 		doneButton.addActionListener(e -> append(nameField.getText()));
@@ -81,7 +86,7 @@ final class GUI extends JPanel {
 		nameLabel = new JLabel("ФИО: ");
 		birthLabel = new JLabel("Дата рождения: ");
 		dateLabel = new JLabel("Дата пропуска:");
-		myNameLabel = new JLabel("by ErshovMaksim");
+		myNameLabel = new JLabel("github.com/maxershov/");
 		datePlusLabel = new JLabel("(\"день\".\"месяц\")");
 
 		// Change fonts
@@ -89,7 +94,7 @@ final class GUI extends JPanel {
 		nameLabel.setFont(new Font(classicFont, Font.PLAIN, 19));
 		birthLabel.setFont(new Font(classicFont, Font.PLAIN, 19));
 		dateLabel.setFont(new Font(classicFont, Font.PLAIN, 19));
-		myNameLabel.setFont(new Font(classicFont, Font.PLAIN, 11));
+		myNameLabel.setFont(new Font(classicFont, Font.PLAIN, 9));
 		datePlusLabel.setFont(new Font(classicFont, Font.PLAIN, 13));
 
 		Box buttBox = Box.createHorizontalBox();
@@ -109,16 +114,22 @@ final class GUI extends JPanel {
 		list.add(datePlusLabel);
 		list.add(dateField);
 		list.add(Box.createVerticalStrut(2));
+		list.add(myNameLabel);
 
 		// create layout and add all
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		p.add(list.add(buttBox));
-		p.add(myNameLabel, BorderLayout.PAGE_END);
+//		p.add(myNameLabel, BorderLayout.PAGE_END);
+		p.add(stopButton);
 		p.add(doneButton);
 		add(list, BorderLayout.NORTH);
 		add(new JScrollPane(log));
 		add(p, BorderLayout.SOUTH);
-		setPreferredSize(new Dimension(420, 400));
+		setPreferredSize(new Dimension(420, 450));
+	}
+
+	void stopAction() {
+		System.exit(0);
 	}
 
 	void append(String text) {
@@ -133,12 +144,20 @@ final class GUI extends JPanel {
 		String birth = birthField.getText();
 		String date = dateField.getText();
 		System.out.println("Strings =" + name + birth + date);
-		try {
-			@SuppressWarnings("unused")
-			Writer parser = new Writer(name, birth, date);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Thread t = new Thread() {
+			public void run() {
+				try {
+					@SuppressWarnings("unused")
+					Writer parser = new Writer(name, birth, date);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		t.start();
 	}
 
 	void setDate(String text) {
