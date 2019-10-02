@@ -3,6 +3,8 @@ PDFDocWriterBAZA
 
 I created this for my work. Tired of typing in MSWord.
 
+Use `commons-logging-1.1.2`, `fontbox-2.0.16`, `pdfbox-2.0.16` lib.
+
 This program reads the PDF doc and writes the info(first and last name, date of birth and date for pass) from user input in GUI and creates new PDF and prints it. PDF box doesn't have default russian font, so i added `AG_Helvetica.ttf` 
 
 You must download the font `AG_Helvetica.ttf` in the `/resource` folder. For printing, you must enter the name of your printer in `/resource/properties.xml` file in `<"printerName">_______<`. 
@@ -23,6 +25,8 @@ Output on empty PDF file will look like this:
 
 
 Я создал эту программу для работы. Устал печатать в MSWord.
+
+Использовал библиотеки `commons-logging-1.1.2`, `fontbox-2.0.16`, `pdfbox-2.0.16`.
 
 Программа открывает PDF документ, вводит в него необходимую информацию (ФИО, дату рождения, дату пропуска), создает новый PDF документ и печает его. 
 
