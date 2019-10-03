@@ -76,11 +76,8 @@ final class GUI extends JPanel {
 
 		// Create fields for input text
 		nameField = new JTextField("");
-		doneButton.addActionListener(e -> append(nameField.getText()));
 		birthField = new JTextField("");
-		doneButton.addActionListener(e -> append(birthField.getText()));
 		dateField = new JTextField("");
-		doneButton.addActionListener(e -> append(dateField.getText()));
 
 		// Create labels
 		nameLabel = new JLabel("ФИО: ");
@@ -119,7 +116,6 @@ final class GUI extends JPanel {
 		// create layout and add all
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		p.add(list.add(buttBox));
-//		p.add(myNameLabel, BorderLayout.PAGE_END);
 		p.add(stopButton);
 		p.add(doneButton);
 		add(list, BorderLayout.NORTH);
@@ -143,6 +139,7 @@ final class GUI extends JPanel {
 		String name = nameField.getText();
 		String birth = birthField.getText();
 		String date = dateField.getText();
+		append(name + " " + birth + " " + date);
 		System.out.println("Strings =" + name + birth + date);
 		Thread t = new Thread() {
 			public void run() {
